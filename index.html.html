@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คู่มือการเรียนรู้ Basic Live Streaming EP 1</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Prompt) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Prompt', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .diagram-node {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .diagram-node:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.3);
+        }
+        .active-tab {
+            border-bottom: 3px solid #6366f1;
+            color: #4f46e5;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans min-h-screen flex flex-col">
+
+    <!-- Header Navigation -->
+    <header class="bg-slate-800/80 backdrop-blur border-b border-slate-700 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="bg-brand-600 text-white p-2.5 rounded-xl shadow-lg shadow-brand-500/30">
+                    <i class="fa-solid fa-video text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">Basic Live Streaming 101</h1>
+                    <p class="text-xs text-slate-400">สรุปบทเรียน EP 1: ภาพชัด เสียงชัด อุปกรณ์และการตั้งค่า</p>
+                </div>
+            </div>
+            
+            <nav class="flex space-x-1 sm:space-x-2 bg-slate-900/60 p-1 rounded-xl border border-slate-700/60 text-xs sm:text-sm">
+                <button onclick="switchTab('overview')" id="tab-overview" class="px-3 py-1.5 rounded-lg active-tab transition">
+                    <i class="fa-solid fa-sitemap mr-1"></i> แผนผังระบบ
+                </button>
+                <button onclick="switchTab('equipment')" id="tab-equipment" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 transition">
+                    <i class="fa-solid fa-boxes-packing mr-1"></i> อุปกรณ์ & สเปก
+                </button>
+                <button onclick="switchTab('software')" id="tab-software" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 transition">
+                    <i class="fa-solid fa-laptop-code mr-1"></i> ซอฟต์แวร์ & การ Setup
+                </button>
+                <button onclick="switchTab('quiz')" id="tab-quiz" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 transition">
+                    <i class="fa-solid fa-circle-question mr-1"></i> แบบทดสอบ
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- SECTION 1: OVERVIEW & INTERACTIVE DIAGRAM -->
+        <section id="sec-overview" class="space-y-8">
+            <div class="bg-gradient-to-r from-brand-900/40 to-slate-800/60 p-6 rounded-2xl border border-brand-500/20">
+                <h2 class="text-2xl font-bold text-white mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-diagram-project text-brand-500"></i> แผนผังจำลองการต่ออุปกรณ์ (Live Setup Workflow)
+                </h2>
+                <p class="text-slate-300 text-sm">
+                    คลิกที่แต่ละโมดูลในแผนผังเพื่อเรียนรู้การตั้งค่า การส่งสัญญาณ และเทคนิคสำคัญที่สอนในวิดีโอ
+                </p>
+            </div>
+
+            <!-- Visual Live Workflow Diagram -->
+            <div class="bg-slate-800/80 p-6 rounded-2xl border border-slate-700">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 relative">
+
+                    <!-- Step 1: Input Source -->
+                    <div class="space-y-4">
+                        <div class="text-center py-1 bg-slate-700/50 rounded text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                            1. แหล่งสัญญาณภาพและเสียง
+                        </div>
+                        
+                        <!-- Camera Card -->
+                        <div onclick="showDetail('camera')" class="diagram-node bg-slate-900 p-4 rounded-xl border border-indigo-500/30 cursor-pointer relative overflow-hidden group">
+                            <div class="absolute top-0 right-0 w-16 h-16 bg-indigo-500/10 rounded-bl-full transition-all group-hover:bg-indigo-500/20"></div>
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-10 h-10 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold">
+                                    <i class="fa-solid fa-camera"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-sm text-white">กล้อง Mirrorless</h3>
+                                    <p class="text-xs text-slate-400">Sony ZV-E10 II</p>
+                                </div>
+                            </div>
+                            <span class="inline-block px-2 py-0.5 text-[10px] bg-indigo-500/20 text-indigo-300 rounded border border-indigo-500/30">
+                                Clean HDMI
+                            </span>
+                        </div>
+
+                        <!-- Mic Card -->
+                        <div onclick="showDetail('mic')" class="diagram-node bg-slate-900 p-4 rounded-xl border border-emerald-500/30 cursor-pointer relative overflow-hidden group">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-10 h-10 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
+                                    <i class="fa-solid fa-microphone text-lg"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-sm text-white">ไมโครโฟน</h3>
+                                    <p class="text-xs text-slate-400">USB Condenser / Dynamic</p>
+                                </div>
+                            </div>
+                            <span class="inline-block px-2 py-0.5 text-[10px] bg-emerald-500/20 text-emerald-300 rounded border border-emerald-500/30">
+                                Direct USB / XLR
+                            </span>
+                        </div>
+
+                        <!-- Lighting Card -->
+                        <div onclick="showDetail('lighting')" class="diagram-node bg-slate-900 p-4 rounded-xl border border-amber-500/30 cursor-pointer relative overflow-hidden group">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-10 h-10 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold">
+                                    <i class="fa-solid fa-lightbulb text-lg"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-sm text-white">ระบบไฟจัดฉาก</h3>
+                                    <p class="text-xs text-slate-400">Softbox / Lantern</p>
+                                </div>
+                            </div>
+                            <span class="inline-block px-2 py-0.5 text-[10px] bg-amber-500/20 text-amber-300 rounded border border-amber-500/30">
+                                แหล่งแสงใหญ่ = แสงนุ่ม
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Converter -->
+                    <div class="space-y-4 flex flex-col justify-center">
+                        <div class="text-center py-1 bg-slate-700/50 rounded text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                            2. ตัวแปลงสัญญาณ
+                        </div>
+                        
+                        <div onclick="showDetail('capture')" class="diagram-node bg-slate-900 p-4 rounded-xl border border-cyan-500/30 cursor-pointer relative overflow-hidden group">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-10 h-10 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold">
+                                    <i class="fa-solid fa-compact-disc"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-sm text-white">Video Capture Card</h3>
+                                    <p class="text-xs text-slate-400">AVerMedia GC553 Pro</p>
+                                </div>
+                            </div>
+                            <p class="text-xs text-slate-400 mt-2">
+                                แปลง HDMI จากกล้องเป็น USB เข้าคอมพิวเตอร์
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Processing PC -->
+                    <div class="space-y-4 flex flex-col justify-center">
+                        <div class="text-center py-1 bg-slate-700/50 rounded text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                            3. คอมพิวเตอร์ประมวลผล
+                        </div>
+                        
+                        <div onclick="showDetail('pc')" class="diagram-node bg-slate-900 p-4 rounded-xl border border-purple-500/30 cursor-pointer relative overflow-hidden group">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-10 h-10 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold">
+                                    <i class="fa-solid fa-microchip"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-sm text-white">Streaming PC</h3>
+                                    <p class="text-xs text-slate-400">Ryzen 5 + RX 7600 XT</p>
+                                </div>
+                            </div>
+                            <div class="space-y-1 mt-2 text-xs text-slate-400">
+                                <div class="flex justify-between"><span>การ์ดจอแยก:</span> <span class="text-slate-200">ช่วย Encode</span></div>
+                                <div class="flex justify-between"><span>พอร์ต USB:</span> <span class="text-slate-200">เน้นพอร์ตเยอะ</span></div>
+                                <div class="flex justify-between"><span>การเชื่อมต่อ:</span> <span class="text-emerald-400">สาย LAN เสถียรสุด</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Software / Output -->
+                    <div class="space-y-4 flex flex-col justify-center">
+                        <div class="text-center py-1 bg-slate-700/50 rounded text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                            4. ซอฟต์แวร์ยิงไลฟ์
+                        </div>
+                        
+                        <div onclick="showDetail('software_obs')" class="diagram-node bg-slate-900 p-3 rounded-xl border border-slate-700 cursor-pointer hover:border-indigo-500">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-circle-play text-indigo-400"></i>
+                                <span class="font-semibold text-sm text-white">OBS Studio</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400">ศูนย์รวมภาพ/เสียง + OBS Virtual Cam</p>
+                        </div>
+
+                        <div onclick="showDetail('software_streamyard')" class="diagram-node bg-slate-900 p-3 rounded-xl border border-slate-700 cursor-pointer hover:border-indigo-500">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-users text-sky-400"></i>
+                                <span class="font-semibold text-sm text-white">StreamYard</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400">คุยหลายคน + ยิงพร้อมกันสูงสุด 10 ช่องทาง</p>
+                        </div>
+
+                        <div onclick="showDetail('software_zoom')" class="diagram-node bg-slate-900 p-3 rounded-xl border border-slate-700 cursor-pointer hover:border-indigo-500">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-video text-blue-400"></i>
+                                <span class="font-semibold text-sm text-white">Zoom Meeting</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400">เน้นประชุม/สัมมนา เปิดโหมด HD Video</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Dynamic Detail Box -->
+            <div id="detail-box" class="bg-slate-800 p-6 rounded-2xl border border-brand-500/40 shadow-xl transition-all">
+                <div id="detail-content" class="space-y-3">
+                    <div class="flex items-center gap-3 text-brand-400 font-bold text-lg">
+                        <i class="fa-solid fa-hand-pointer animate-bounce"></i>
+                        <span>คลิกที่องค์ประกอบต่างๆ ในแผนผังด้านบน เพื่ออ่านคำอธิบายแบบเจาะลึก</span>
+                    </div>
+                    <p class="text-sm text-slate-400">
+                        เรียนรู้เทคนิคการเลือกใช้อุปกรณ์และการตั้งค่าซอฟต์แวร์จริงจากประสบการณ์ผู้เชี่ยวชาญในคลิปวิดีโอ
+                    </p>
+                </div>
+            </div>
+
+            <!-- Timeline Navigator -->
+            <div class="bg-slate-800/50 p-6 rounded-2xl border border-slate-700">
+                <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-clock text-indigo-400"></i> ช่วงเวลาสำคัญในบทเรียน (Timestamps)
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 text-sm">
+                    <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 hover:border-indigo-500/50 transition">
+                        <span class="text-indigo-400 font-mono font-bold">0:00 - 1:02</span>
+                        <p class="font-medium text-slate-200 mt-1">ฝั่ง Production: กล้อง และไฟ</p>
+                        <p class="text-xs text-slate-400">Sony ZV-E10 II, เลนส์ Kit, ชาร์จไฟต่อเนื่อง, แสงนุ่ม</p>
+                    </div>
+                    <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 hover:border-indigo-500/50 transition">
+                        <span class="text-indigo-400 font-mono font-bold">1:03 - 3:21</span>
+                        <p class="font-medium text-slate-200 mt-1">สเปก PC สำหรับไลฟ์สตรีม</p>
+                        <p class="text-xs text-slate-400">Ryzen 5 7500F, RX 7600 XT, เมนบอร์ดพอร์ตเยอะ, สาย LAN</p>
+                    </div>
+                    <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 hover:border-indigo-500/50 transition">
+                        <span class="text-indigo-400 font-mono font-bold">3:22 - 4:55</span>
+                        <p class="font-medium text-slate-200 mt-1">Video Capture Card & Clean HDMI</p>
+                        <p class="text-xs text-slate-400">การแปลงสาย Micro HDMI -> HDMI, วิธีปิด Info Display</p>
+                    </div>
+                    <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 hover:border-indigo-500/50 transition">
+                        <span class="text-indigo-400 font-mono font-bold">4:56 - 6:12</span>
+                        <p class="font-medium text-slate-200 mt-1">ระบบเสียงและไมโครโฟน</p>
+                        <p class="text-xs text-slate-400">ไมค์ USB Condenser ใช้งานง่าย ชัดเจน ไม่ต้องลงไดรเวอร์</p>
+                    </div>
+                    <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 hover:border-indigo-500/50 transition">
+                        <span class="text-indigo-400 font-mono font-bold">6:13 - 8:31</span>
+                        <p class="font-medium text-slate-200 mt-1">โปรแกรมหลัก OBS Studio</p>
+                        <p class="text-xs text-slate-400">โปรแกรมฟรี รวบรวมภาพ/เสียง นำเข้ากราฟิก/โลโก้</p>
+                    </div>
+                    <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800 hover:border-indigo-500/50 transition">
+                        <span class="text-indigo-400 font-mono font-bold">8:32 - 16:58</span>
+                        <p class="font-medium text-slate-200 mt-1">StreamYard คุยหลายคน</p>
+                        <p class="text-xs text-slate-400">ดึงภาพจาก OBS Virtual Cam, เชิญแขก, ยิงสูงสุด 10 ช่องทาง</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: EQUIPMENT & HARDWARE CHECKLIST -->
+        <section id="sec-equipment" class="space-y-6 hidden">
+            <div class="bg-gradient-to-r from-emerald-900/40 to-slate-800/60 p-6 rounded-2xl border border-emerald-500/20">
+                <h2 class="text-2xl font-bold text-white mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-boxes-packing text-emerald-400"></i> รายการอุปกรณ์และสเปกที่แนะนำ (Hardware Checklist)
+                </h2>
+                <p class="text-slate-300 text-sm">
+                    รวมฮาร์ดแวร์พื้นฐานเพื่อสร้างไลฟ์สตรีมระดับมืออาชีพ แต่เสียงชัด ภาพไม่ตัด
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- Card 1: Camera -->
+                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-indigo-500/20 rounded-xl flex items-center justify-center text-indigo-400 text-xl font-bold">
+                                    <i class="fa-solid fa-camera-retro"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg text-white">กล้องถ่ายภาพ (Camera)</h3>
+                                    <p class="text-xs text-slate-400">ตัวอย่างในคลิป: Sony ZV-E10 Mark II</p>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="space-y-2 text-sm text-slate-300">
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-emerald-400 text-xs"></i>
+                                <span>รองรับการต่อไฟตรงผ่าน **USB Type-C** เพื่อให้เปิดได้ยาวนานแบตไม่ดับ</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-emerald-400 text-xs"></i>
+                                <span>ส่งสัญญาณ **Clean HDMI** ปิดเมนู Info บนหน้าจอได้</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-emerald-400 text-xs"></i>
+                                <span>มีจอ Flip ช่วยให้เห็นตัวเองขณะจัดรายการ</span>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-check text-emerald-400 text-xs"></i>
+                                <span>ระบบ Auto Focus รวดเร็วเมื่อยื่นวัตถุเข้าหากล้อง</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mt-4 p-3 bg-slate-900/80 rounded-xl border border-slate-700 text-xs text-indigo-300">
+                        <i class="fa-solid fa-lightbulb mr-1"></i> **Tip:** ใช้สาย HDMI ยาวได้สูงสุดถึง 15 เมตร ต่างจาก USB ที่สายสั้นกว่า จัดมุมกล้องได้ยืดหยุ่นกว่า
+                    </div>
+                </div>
+
+                <!-- Card 2: Streaming PC Spec -->
+                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center text-purple-400 text-xl font-bold">
+                                    <i class="fa-solid fa-desktop"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg text-white">คอมพิวเตอร์ (Streaming PC)</h3>
+                                    <p class="text-xs text-slate-400">สเปกระดับกลาง-ทำงานลื่นไหล</p>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="space-y-2 text-sm text-slate-300">
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-microchip text-purple-400 text-xs mt-1"></i>
+                                <span>**CPU:** AMD Ryzen 5 7500F (6 Cores / 12 Threads) สเปกคุ้มค่าราคากลางๆ</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-hard-drive text-purple-400 text-xs mt-1"></i>
+                                <span>**GPU (การ์ดจอแยก):** ASRock Challenger RX 7600 XT ช่วยแบกภาระ Encode ไลฟ์สด</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-plug text-purple-400 text-xs mt-1"></i>
+                                <span>**เมนบอร์ด (B850 Pro A WiFi):** เน้นเลือกพอร์ต USB เยอะๆ (10+ พอร์ต)</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-network-wired text-purple-400 text-xs mt-1"></i>
+                                <span>**การเชื่อมต่อ:** ต่อสาย LAN เพื่อความเสถียรสูงสุด (รองรับ WiFi เป็นสำรอง)</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mt-4 p-3 bg-slate-900/80 rounded-xl border border-slate-700 text-xs text-purple-300">
+                        <i class="fa-solid fa-triangle-exclamation mr-1"></i> **ทำไมต้องพอร์ตเยอะ?** ต้องเสียบ Capture Card, เมาส์/คีย์บอร์ด, Sound Interface, Stream Deck และ SSD สำรองข้อมูล
+                    </div>
+                </div>
+
+                <!-- Card 3: Capture Card -->
+                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-12 h-12 bg-cyan-500/20 rounded-xl flex items-center justify-center text-cyan-400 text-xl font-bold">
+                                <i class="fa-solid fa-plug-circle-bolt"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg text-white">Video Capture Card</h3>
+                                <p class="text-xs text-slate-400">ตัวอย่าง: AVerMedia Live Gamer Ultra (GC553 Pro)</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-300 mb-3">
+                            ทำหน้าที่เป็นสะพานแปลงสัญญาณวิดีโอระดับสูงจากกล้อง (HDMI) ให้คอมพิวเตอร์มองเห็นเป็นกล้องเว็บแคมผ่านช่อง USB Type-C
+                        </p>
+                    </div>
+                    <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-700 text-xs text-cyan-300">
+                        <i class="fa-solid fa-circle-info mr-1"></i> รองรับความละเอียดสูงสุดถึง 4K 60FPS ช่วยให้ภาพจากกล้องระดับโปรไม่ถูกลดทอนคุณภาพ
+                    </div>
+                </div>
+
+                <!-- Card 4: Microphones & Lighting -->
+                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-12 h-12 bg-amber-500/20 rounded-xl flex items-center justify-center text-amber-400 text-xl font-bold">
+                                <i class="fa-solid fa-sliders"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg text-white">ไมโครโฟน & ระบบไฟ (Audio & Light)</h3>
+                                <p class="text-xs text-slate-400">ปัจจัยสำคัญให้เสียงคมและภาพนุ่มนวล</p>
+                            </div>
+                        </div>
+                        <ul class="space-y-2 text-sm text-slate-300">
+                            <li>**ไมโครโฟน USB Condenser:** เสียบต่อตรงใช้งานง่าย เหมาะกับตั้งโต๊ะเดี่ยว</li>
+                            <li>**ไมโครโฟน Dynamic (XLR):** ตัดเสียงรบกวนภายนอกได้ดีเยี่ยม เหมาะกับห้องจัดรายการ</li>
+                            <li>**ไฟส่องสว่าง:** ไฟแรง + แหล่งกำเนิดแสงขนาดใหญ่ (Softbox / Lantern) จะทำให้แสงนุ่ม ไม่เกิดเงาแข็งบนใบหน้า</li>
+                        </ul>
+                    </div>
+                    <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-700 text-xs text-amber-300">
+                        <i class="fa-solid fa-quote-left mr-1"></i> เริ่มต้นใช้ไฟธรรมดาก่อนได้ แต่ถ้าต้องการงานระดับโปร ให้เลือกไฟที่มีซอฟต์บ็อกซ์ขนาดใหญ่
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 3: SOFTWARE & CONFIGURATION -->
+        <section id="sec-software" class="space-y-6 hidden">
+            <div class="bg-gradient-to-r from-sky-900/40 to-slate-800/60 p-6 rounded-2xl border border-sky-500/20">
+                <h2 class="text-2xl font-bold text-white mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-laptop-code text-sky-400"></i> ซอฟต์แวร์และการตั้งค่าระบบไลฟ์
+                </h2>
+                <p class="text-slate-300 text-sm">
+                    เรียนรู้ 3 ซอฟต์แวร์หลัก และขั้นตอนการ Setup StreamYard ผ่าน OBS (Virtual Camera Workflow)
+                </p>
+            </div>
+
+            <!-- Software Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                <!-- OBS Studio -->
+                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-indigo-500/20 rounded-xl flex items-center justify-center text-indigo-400 font-bold text-xl">
+                                OBS
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg text-white">OBS Studio</h3>
+                                <span class="px-2 py-0.5 text-xs bg-emerald-500/20 text-emerald-300 rounded border border-emerald-500/30">ฟรี 100%</span>
+                            </div>
+                        </div>
+
+                        <p class="text-sm text-slate-300">
+                            หัวใจหลักของคนทำไลฟ์ ใช้รวมสัญญาณภาพจาก Capture Card, สัญญาณเสียงไมค์, วางโลโก้ และทำกราฟิก Lower Third
+                        </p>
+
+                        <div class="space-y-2 text-xs text-slate-300 bg-slate-900/60 p-4 rounded-xl border border-slate-700/60">
+                            <h4 class="font-bold text-indigo-400 uppercase tracking-wider">ฟีเจอร์ไม้ตาย: OBS Virtual Cam</h4>
+                            <p>จำลองภาพทั้งหมดที่จัดใน OBS ให้กลายเป็นกล้องเสมือน เพื่อส่งต่อภาพเข้าโปรแกรมอื่น เช่น StreamYard หรือ Zoom</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <button onclick="scrollToSetupGuide()" class="w-full py-2 bg-indigo-600/30 hover:bg-indigo-600 text-indigo-200 hover:text-white rounded-xl border border-indigo-500/40 text-xs font-semibold transition">
+                            <i class="fa-solid fa-gear mr-1"></i> ดูวิธีส่งสัญญาณไป StreamYard
+                        </button>
+                    </div>
+                </div>
+
+                <!-- StreamYard -->
+                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-sky-500/20 rounded-xl flex items-center justify-center text-sky-400 font-bold text-xl">
+                                SY
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg text-white">StreamYard</h3>
+                                <span class="px-2 py-0.5 text-xs bg-sky-500/20 text-sky-300 rounded border border-sky-500/30">Web-based App</span>
+                            </div>
+                        </div>
+
+                        <p class="text-sm text-slate-300">
+                            โปรแกรม Video Conference บนเบราว์เซอร์ เหมาะกับการจัดรายการที่มีแขกรับเชิญ สนทนา 2 คนขึ้นไป
+                        </p>
+
+                        <ul class="space-y-1.5 text-xs text-slate-300">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-sky-400"></i> ยิงสัญญาณออกพร้อมกันสูงสุด 10 ช่องทาง (Facebook, YouTube)</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-sky-400"></i> คัดลอกลิงก์ส่งให้แขกรับเชิญกดเข้ามาร่วมคุยได้ทันที</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-sky-400"></i> สลับ Layout, ใส่ Background, ปรับภาพหน้าใหญ่-เล็กสะดวก</li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-6">
+                        <button onclick="scrollToSetupGuide()" class="w-full py-2 bg-sky-600/30 hover:bg-sky-600 text-sky-200 hover:text-white rounded-xl border border-sky-500/40 text-xs font-semibold transition">
+                            <i class="fa-solid fa-list-check mr-1"></i> ขั้นตอน Setup ร่วมกับ OBS
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Zoom Meeting -->
+                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center text-blue-400 font-bold text-xl">
+                                <i class="fa-solid fa-video"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg text-white">Zoom Meeting</h3>
+                                <span class="px-2 py-0.5 text-xs bg-blue-500/20 text-blue-300 rounded border border-blue-500/30">Meeting / Webinar</span>
+                            </div>
+                        </div>
+
+                        <p class="text-sm text-slate-300">
+                            เหมาะสำหรับประชุมองค์กร สัมมนาออนไลน์ หรือสอนพิเศษ รองรับผู้ร่วมเข้าชมจำนวนมากตั้งแต่หลักร้อยถึงหลักพันคน
+                        </p>
+
+                        <div class="space-y-2 text-xs text-slate-300 bg-slate-900/60 p-4 rounded-xl border border-slate-700/60">
+                            <h4 class="font-bold text-blue-400 uppercase tracking-wider">เคล็ดลับภาพชัดใน Zoom:</h4>
+                            <p>1. เลือกกล้องเป็น **OBS Virtual Camera**</p>
+                            <p>2. เข้าไปที่ Video Effect Settings > ติ๊กเปิด **HD Video** เพื่อบังคับความคมชัดสูงสุด</p>
+                            <p>3. ปิด **Mirror My Video** หากต้องการให้ตัวอักษรบนกราฟิกไม่กลับด้าน</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <div class="p-2.5 bg-slate-900/80 rounded-xl text-xs text-slate-400">
+                            <i class="fa-solid fa-circle-exclamation text-amber-400 mr-1"></i> ตรวจสอบ Speaker Output ให้ตรงกับลำโพง/หูฟังเพื่อยิมเสียงตอบกลับ
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- DETAILED GUIDE: STREAMYARD SETUP VIA OBS -->
+            <div id="streamyard-setup-guide" class="bg-slate-800 p-6 rounded-2xl border border-sky-500/40 shadow-2xl space-y-6">
+                <div class="flex items-center gap-3 border-b border-slate-700 pb-4">
+                    <div class="p-3 bg-sky-500/20 text-sky-400 rounded-xl text-xl font-bold">
+                        <i class="fa-solid fa-sliders"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-white">ขั้นตอนอย่างละเอียด: วิธีการ Setup StreamYard ร่วมกับ OBS Studio</h3>
+                        <p class="text-xs text-slate-400">ส่งต่อภาพจัดซีนสวยๆ + กราฟิกโลโก้จาก OBS เข้าสู่ระบบการจัดรายการหลายคนของ StreamYard</p>
+                    </div>
+                </div>
+
+                <!-- Setup Steps Workflow -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    
+                    <!-- Step 1 -->
+                    <div class="bg-slate-900/80 p-5 rounded-xl border border-slate-700 space-y-3 relative">
+                        <div class="w-8 h-8 rounded-full bg-indigo-600 text-white font-bold flex items-center justify-center text-sm shadow-lg shadow-indigo-600/40">
+                            1
+                        </div>
+                        <h4 class="font-bold text-slate-100 text-base">ตั้งค่าฝั่ง OBS Studio</h4>
+                        <ul class="space-y-2 text-xs text-slate-300">
+                            <li class="flex items-start gap-1.5">
+                                <i class="fa-solid fa-check text-indigo-400 mt-0.5"></i>
+                                <span>เพิ่ม <strong>Video Capture Device</strong> (ดึงภาพกล้องผ่าน Capture Card)</span>
+                            </li>
+                            <li class="flex items-start gap-1.5">
+                                <i class="fa-solid fa-check text-indigo-400 mt-0.5"></i>
+                                <span>จัดเลเยอร์หน้าจอ วางโลโก้ บาร์ล่าง (Lower Third) ให้เรียบร้อย</span>
+                            </li>
+                            <li class="flex items-start gap-1.5 bg-indigo-950/60 p-2 rounded border border-indigo-500/30">
+                                <i class="fa-solid fa-circle-play text-indigo-400 mt-0.5"></i>
+                                <span>กดปุ่ม <strong>"Start Virtual Camera"</strong> ตรงเมนู Controls ด้านขวาล่าง</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="bg-slate-900/80 p-5 rounded-xl border border-slate-700 space-y-3 relative">
+                        <div class="w-8 h-8 rounded-full bg-sky-600 text-white font-bold flex items-center justify-center text-sm shadow-lg shadow-sky-600/40">
+                            2
+                        </div>
+                        <h4 class="font-bold text-slate-100 text-base">ตั้งค่าฝั่ง StreamYard</h4>
+                        <ul class="space-y-2 text-xs text-slate-300">
+                            <li class="flex items-start gap-1.5">
+                                <i class="fa-solid fa-check text-sky-400 mt-0.5"></i>
+                                <span>ล็อกอินเข้า <strong>StreamYard.com</strong> แล้วสร้าง Studio/Broadcast</span>
+                            </li>
+                            <li class="flex items-start gap-1.5">
+                                <i class="fa-solid fa-gear text-sky-400 mt-0.5"></i>
+                                <span>ไปที่เมนู <strong>Settings > Camera</strong> แล้วเลือกอุปกรณ์เป็น <strong>"OBS Virtual Camera"</strong></span>
+                            </li>
+                            <li class="flex items-start gap-1.5">
+                                <i class="fa-solid fa-microphone text-sky-400 mt-0.5"></i>
+                                <span>ไปที่เมนู <strong>Audio</strong> เลือก Mic ให้ตรงกับไมโครโฟนของคุณ (เช่น USB Mic)</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="bg-slate-900/80 p-5 rounded-xl border border-slate-700 space-y-3 relative">
+                        <div class="w-8 h-8 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center text-sm shadow-lg shadow-emerald-600/40">
+                            3
+                        </div>
+                        <h4 class="font-bold text-slate-100 text-base">เชิญแขก & เริ่มยิงไลฟ์</h4>
+                        <ul class="space-y-2 text-xs text-slate-300">
+                            <li class="flex items-start gap-1.5">
+                                <i class="fa-solid fa-user-plus text-emerald-400 mt-0.5"></i>
+                                <span>กดปุ่ม <strong>+ Invite</strong> คัดลอกลิงก์ส่งให้แขกผ่าน LINE / Facebook Chat</span>
+                            </li>
+                            <li class="flex items-start gap-1.5">
+                                <i class="fa-solid fa-desktop text-emerald-400 mt-0.5"></i>
+                                <span>กด <strong>Add to stage</strong> ดึงตัวเองและแขกขึ้นจอหลัก</span>
+                            </li>
+                            <li class="flex items-start gap-1.5">
+                                <i class="fa-solid fa-tower-broadcast text-emerald-400 mt-0.5"></i>
+                                <span>เลือก Destinations (Facebook/YouTube) แล้วกด <strong>Go Live</strong></span>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <!-- Pro-Tips / Caution Box -->
+                <div class="bg-amber-950/40 border border-amber-500/30 p-4 rounded-xl text-xs space-y-2 text-amber-200">
+                    <div class="flex items-center gap-2 font-bold text-amber-400 text-sm">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <span>ข้อควรระวังสำคัญป้องกันเสียงวน/ภาพไม่ขึ้น (Troubleshooting & Audio Loopback)</span>
+                    </div>
+                    <ul class="list-disc list-inside space-y-1 text-slate-300 pl-1">
+                        <li><strong>ภาพไม่ขึ้นใน StreamYard:</strong> ตรวจสอบว่าในโปรแกรม OBS ได้กดปุ่ม <em>"Start Virtual Camera"</em> แล้วหรือยัง หากยังไม่กด หน้าจอ StreamYard จะขึ้นเป็นจอดำ</li>
+                        <li><strong>ป้องกันเสียงวน (Audio Echo):</strong> ให้เลือกไมโครโฟนตรงเข้าใน StreamYard โดยตรง และปิดการ Monitor เสียงใน OBS เพื่อไม่ให้เสียงส่งซ้ำสองทาง</li>
+                        <li><strong>ส่งสัญญาณได้กี่ช่องทาง?:</strong> แพ็คเกจ Advance ของ StreamYard ยิงออกพร้อมกันสูงสุดได้ถึง 10 Destinations (Facebook Page, Facebook Group, YouTube Channels)</li>
+                    </ul>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- SECTION 4: INTERACTIVE QUIZ -->
+        <section id="sec-quiz" class="space-y-6 hidden">
+            <div class="bg-gradient-to-r from-purple-900/40 to-slate-800/60 p-6 rounded-2xl border border-purple-500/20">
+                <h2 class="text-2xl font-bold text-white mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-question text-purple-400"></i> แบบทดสอบความเข้าใจ (Knowledge Self-Test)
+                </h2>
+                <p class="text-slate-300 text-sm">
+                    ทดสอบความรู้จากการเรียนรู้สรุปอุปกรณ์และระบบไลฟ์สตรีม EP 1
+                </p>
+            </div>
+
+            <div class="max-w-3xl mx-auto space-y-6">
+
+                <!-- Question 1 -->
+                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-4">
+                    <h3 class="font-bold text-slate-100 flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs">1</span>
+                        เหตุใดการส่งสัญญาณจากกล้องไปหน้าไลฟ์จึงควรตั้งค่า "Clean HDMI" (HDMI Info Display = Off)?
+                    </h3>
+                    <div class="space-y-2 text-sm">
+                        <label class="flex items-center gap-3 p-3 bg-slate-900/50 rounded-xl cursor-pointer hover:bg-slate-900 border border-slate-700/60">
+                            <input type="radio" name="q1" value="a" class="text-indigo-600">
+                            <span>เพื่อประหยัดแบตเตอรี่ของกล้องถ่ายภาพ</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-900/50 rounded-xl cursor-pointer hover:bg-slate-900 border border-slate-700/60">
+                            <input type="radio" name="q1" value="b" class="text-indigo-600">
+                            <span>เพื่อไม่ให้มีตัวเลข สปีดชัตเตอร์ หรือไอคอนหลังกล้องขึ้นไปบดบังหน้าจอไลฟ์</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-900/50 rounded-xl cursor-pointer hover:bg-slate-900 border border-slate-700/60">
+                            <input type="radio" name="q1" value="c" class="text-indigo-600">
+                            <span>เพื่อเปลี่ยนความละเอียดภาพให้กลายเป็น 8K อัตโนมัติ</span>
+                        </label>
+                    </div>
+                    <div id="q1-result" class="hidden p-3 rounded-xl text-xs font-semibold"></div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-4">
+                    <h3 class="font-bold text-slate-100 flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs">2</span>
+                        หากต้องการดึงภาพที่จัดหน้าเลเยอร์และใส่โลโก้เรียบร้อยใน OBS ไปใช้ใน StreamYard ต้องใช้อุปกรณ์หรือฟีเจอร์ใด?
+                    </h3>
+                    <div class="space-y-2 text-sm">
+                        <label class="flex items-center gap-3 p-3 bg-slate-900/50 rounded-xl cursor-pointer hover:bg-slate-900 border border-slate-700/60">
+                            <input type="radio" name="q2" value="a" class="text-indigo-600">
+                            <span>เปิดโหมด OBS Virtual Camera แล้วไปเลือกกล้องชื่อ OBS Virtual Cam ใน StreamYard</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-900/50 rounded-xl cursor-pointer hover:bg-slate-900 border border-slate-700/60">
+                            <input type="radio" name="q2" value="b" class="text-indigo-600">
+                            <span>ใช้สาย USB เสียบต่อจากหน้าจอคอมพิวเตอร์เข้ามือถือ</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-900/50 rounded-xl cursor-pointer hover:bg-slate-900 border border-slate-700/60">
+                            <input type="radio" name="q2" value="c" class="text-indigo-600">
+                            <span>ต่อสาย HDMI สองเส้นเข้าการ์ดจอพร้อมกัน</span>
+                        </label>
+                    </div>
+                    <div id="q2-result" class="hidden p-3 rounded-xl text-xs font-semibold"></div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-4">
+                    <h3 class="font-bold text-slate-100 flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs">3</span>
+                        ข้อดีหลักของการเลือกใช้คอมพิวเตอร์พอร์ต USB จำนวนมากสำหรับการทำ Live Streaming คืออะไร?
+                    </h3>
+                    <div class="space-y-2 text-sm">
+                        <label class="flex items-center gap-3 p-3 bg-slate-900/50 rounded-xl cursor-pointer hover:bg-slate-900 border border-slate-700/60">
+                            <input type="radio" name="q3" value="a" class="text-indigo-600">
+                            <span>ช่วยให้คอมพิวเตอร์ประมวลผลได้เร็วขึ้นโดยไม่ต้องใช้การ์ดจอ</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-900/50 rounded-xl cursor-pointer hover:bg-slate-900 border border-slate-700/60">
+                            <input type="radio" name="q3" value="b" class="text-indigo-600">
+                            <span>รองรับการเชื่อมต่ออุปกรณ์พร้อมกัน เช่น Capture Card, Sound Interface, Stream Deck, SSD</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-900/50 rounded-xl cursor-pointer hover:bg-slate-900 border border-slate-700/60">
+                            <input type="radio" name="q3" value="c" class="text-indigo-600">
+                            <span>ช่วยลดความร้อนของ CPU โดยอัตโนมัติ</span>
+                        </label>
+                    </div>
+                    <div id="q3-result" class="hidden p-3 rounded-xl text-xs font-semibold"></div>
+                </div>
+
+                <button onclick="checkQuiz()" class="w-full py-3 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl shadow-lg shadow-brand-600/30 transition">
+                    ตรวจคำตอบ
+                </button>
+
+            </div>
+        </section>
+<a href="ep2.html" class="px-4 py-2 bg-indigo-600 text-white rounded-lg">ไปที่ EP 2</a>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-6 text-center text-xs text-slate-500">
+        <p>Basic Live Streaming EP 1 Summary & Interactive Learning Tool</p>
+        <p class="mt-1">สร้างขึ้นเพื่อช่วยสรุปและเสริมสร้างความเข้าใจระบบ Live Streaming มืออาชีพ</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Tab Navigation Logic
+        function switchTab(tabId) {
+            const tabs = ['overview', 'equipment', 'software', 'quiz'];
+            tabs.forEach(tab => {
+                const sec = document.getElementById(`sec-${tab}`);
+                const btn = document.getElementById(`tab-${tab}`);
+                if (tab === tabId) {
+                    sec.classList.remove('hidden');
+                    btn.classList.add('active-tab');
+                    btn.classList.remove('text-slate-400');
+                } else {
+                    sec.classList.add('hidden');
+                    btn.classList.remove('active-tab');
+                    btn.classList.add('text-slate-400');
+                }
+            });
+        }
+
+        function scrollToSetupGuide() {
+            switchTab('software');
+            setTimeout(() => {
+                const guideElem = document.getElementById('streamyard-setup-guide');
+                if (guideElem) {
+                    guideElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 100);
+        }
+
+        // Detail Data for Diagram Nodes
+        const detailsData = {
+            camera: {
+                title: 'กล้องถ่ายภาพ (Sony ZV-E10 II / Mirrorless)',
+                icon: 'fa-camera text-indigo-400',
+                desc: 'อุปกรณ์หลักในฝั่ง Production สำหรับดึงสัญญาณภาพระดับโปร คมชัด ละลายหลังได้ดี มีจุดเด่นคือต่อ USB Type-C เสียบไฟตรงทำงานได้ยาวๆ แบตไม่หมด และรองรับการปล่อย Clean HDMI',
+                tip: 'อย่าลืมปิด Info Display ในกล้อง: เมนู External Output -> HDMI Info Display -> OFF เพื่อไม่ให้ไอคอนการตั้งค่ากล้องโชว์ในหน้าไลฟ์'
+            },
+            mic: {
+                title: 'ระบบไมโครโฟน (Microphone)',
+                icon: 'fa-microphone text-emerald-400',
+                desc: 'ไมโครโฟน USB Condenser แบบตั้งโต๊ะ เช่น AVerMedia Godwit AM310 G2 ช่วยให้ใช้งานง่าย เสียบสายเดียวเข้าคอมพิวเตอร์ใช้งานได้ทันที ให้เสียงชัดเจนคมชัดโดยไม่ต้องลงไดรเวอร์',
+                tip: 'หากต้องการตัดเสียงรบกวนในห้องที่ไม่เก็บเสียง ให้เลือกใช้ไมโครโฟนประเภท Dynamic (XLR) ต่อผ่าน Sound Interface'
+            },
+            lighting: {
+                title: 'ระบบไฟส่องสว่าง (Lighting)',
+                icon: 'fa-lightbulb text-amber-400',
+                desc: 'ไฟถือเป็นหัวใจสำคัญที่ทำให้ภาพคมชัดมากกว่าการอัปเกรดกล้องเพียงอย่างเดียว แหล่งกำเนิดแสงยิ่งมีขนาดใหญ่ (เช่น ไฟ Softbox หรือ Lantern ซาลาเปา) จะช่วยให้แสงตกกระทบบนใบหน้านุ่มนวน ไม่เกิดเงาแข็ง',
+                tip: 'หากเริ่มต้นสามารถใช้ไฟบ้านทั่วไปก่อนได้ แล้วค่อยอัปเกรดเป็นไฟซอฟต์บ็อกซ์ขนาดใหญ่ตามความจริงจังของงาน'
+            },
+            capture: {
+                title: 'Video Capture Card (AVerMedia GC553 Pro)',
+                icon: 'fa-compact-disc text-cyan-400',
+                desc: 'กล่องแปลงสัญญาณภาพจากสาย HDMI ของกล้อง ให้กลายเป็นสัญญาณ USB เข้าสู่คอมพิวเตอร์ ทำหน้าที่เหมือนเว็บแคมความละเอียดสูง รองรับเฟรมเรตและ Resolution สูงถึง 4K 60FPS',
+                tip: 'สาย HDMI ลากได้ยาวถึง 15 เมตร ช่วยให้เราวางกล้องตั้งขาถอยห่างจากโต๊ะไลฟ์เพื่อจัดมุมสวยๆ ได้ง่ายกว่าสาย USB'
+            },
+            pc: {
+                title: 'สเปกคอมพิวเตอร์ประมวลผล (Streaming PC)',
+                icon: 'fa-microchip text-purple-400',
+                desc: 'ใช้ CPU AMD Ryzen 5 7500F ร่วมกับการ์ดจอแยก ASRock Challenger RX 7600 XT ช่วยประมวลผลการส่งสัญญาณออกและการบันทึกวิดีโอลงคอมพร้อมกันได้อย่างลื่นไหล',
+                tip: 'ควรเลือกเมนบอร์ดที่มีพอร์ต USB เยอะๆ (เช่น ASRock B850 Pro A WiFi) และต่อสาย LAN เพื่อความเสถียรของอินเทอร์เน็ต'
+            },
+            software_obs: {
+                title: 'โปรแกรม OBS Studio',
+                icon: 'fa-circle-play text-indigo-400',
+                desc: 'โปรแกรมยิงไลฟ์ฟรีระดับมาตรฐานโลก ใช้จัดการซีน จัดเลเยอร์กล้อง นำเข้ากราฟิก/โลโก้ และคุมกราฟเสียง',
+                tip: 'ใช้ฟีเจอร์ "Start Virtual Camera" เพื่อส่งสัญญาณภาพไปใช้งานในโปรแกรมอื่น เช่น StreamYard หรือ Zoom'
+            },
+            software_streamyard: {
+                title: 'โปรแกรม StreamYard (Setup ร่วมกับ OBS)',
+                icon: 'fa-users text-sky-400',
+                desc: 'แอปพลิเคชันบนเว็บสำหรับการจัดรายการและสัมภาษณ์หลายคน สามารถรับภาพจาก OBS ผ่าน "OBS Virtual Camera" ได้โดยตรง',
+                tip: 'ดูคู่มือการตั้งค่าเต็มรูปแบบได้ในแท็บ "ซอฟต์แวร์ & การ Setup" ด้านบน'
+            },
+            software_zoom: {
+                title: 'โปรแกรม Zoom Meeting',
+                icon: 'fa-video text-blue-400',
+                desc: 'เน้นงานประชุม การเรียนการสอน และสัมมนาออนไลน์ที่ต้องการปฏิสัมพันธ์กับผู้ฟังจำนวนมาก',
+                tip: 'อย่าลืมเข้าไปเปิดโหมด "HD Video" ในเมนูตั้งค่า Video เพื่อดึงภาพคมชัดระดับสูงจากกล้องเข้าการประชุม'
+            }
+        };
+
+        function showDetail(key) {
+            const data = detailsData[key];
+            if (!data) return;
+
+            const detailBox = document.getElementById('detail-box');
+            const detailContent = document.getElementById('detail-content');
+
+            detailContent.innerHTML = `
+                <div class="flex items-center gap-3 text-lg font-bold text-white border-b border-slate-700 pb-3">
+                    <i class="fa-solid ${data.icon}"></i>
+                    <span>${data.title}</span>
+                </div>
+                <p class="text-sm text-slate-300 leading-relaxed">${data.desc}</p>
+                <div class="p-3 bg-slate-900/80 rounded-xl border border-brand-500/30 text-xs text-brand-300 flex items-start gap-2">
+                    <i class="fa-solid fa-lightbulb mt-0.5 text-amber-400"></i>
+                    <div>
+                        <strong class="text-amber-400">ข้อแนะนำสำคัญ:</strong> ${data.tip}
+                    </div>
+                </div>
+            `;
+
+            detailBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Quiz Verification Logic
+        function checkQuiz() {
+            // Question 1: b
+            const q1 = document.querySelector('input[name="q1"]:checked');
+            const q1Res = document.getElementById('q1-result');
+            q1Res.classList.remove('hidden');
+            if (q1 && q1.value === 'b') {
+                q1Res.className = "p-3 rounded-xl text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+                q1Res.innerHTML = "✓ ถูกต้อง! การปิด HDMI Info Display จะทำให้ได้ Clean HDMI ที่ไม่มีไอคอนตัวเลขมาบดบัง";
+            } else {
+                q1Res.className = "p-3 rounded-xl text-xs font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30";
+                q1Res.innerHTML = "✕ ยังไม่ถูกต้อง คำตอบคือ: เพื่อไม่ให้มีตัวเลขหรือไอคอนหลังกล้องขึ้นไปบดบังหน้าจอไลฟ์ (Clean HDMI)";
+            }
+
+            // Question 2: a
+            const q2 = document.querySelector('input[name="q2"]:checked');
+            const q2Res = document.getElementById('q2-result');
+            q2Res.classList.remove('hidden');
+            if (q2 && q2.value === 'a') {
+                q2Res.className = "p-3 rounded-xl text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+                q2Res.innerHTML = "✓ ถูกต้อง! ฟีเจอร์ OBS Virtual Camera จะจำลองภาพใน OBS ส่งออกเป็นเว็บแคมให้ StreamYard ใช้งานได้ทันที";
+            } else {
+                q2Res.className = "p-3 rounded-xl text-xs font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30";
+                q2Res.innerHTML = "✕ ยังไม่ถูกต้อง คำตอบคือ: เปิดโหมด OBS Virtual Camera แล้วเลือกกล้องชื่อ OBS Virtual Cam ใน StreamYard";
+            }
+
+            // Question 3: b
+            const q3 = document.querySelector('input[name="q3"]:checked');
+            const q3Res = document.getElementById('q3-result');
+            q3Res.classList.remove('hidden');
+            if (q3 && q3.value === 'b') {
+                q3Res.className = "p-3 rounded-xl text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+                q3Res.innerHTML = "✓ ถูกต้อง! งานไลฟ์สตรีมต้องต่อพอร์ตเชื่อมต่อหลายอย่าง เช่น Capture Card, Sound Interface, Stream Deck และ SSD";
+            } else {
+                q3Res.className = "p-3 rounded-xl text-xs font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30";
+                q3Res.innerHTML = "✕ ยังไม่ถูกต้อง คำตอบคือ: รองรับการเชื่อมต่ออุปกรณ์พร้อมกันจำนวนมาก";
+            }
+        }
+    </script>
+</body>
+</html>

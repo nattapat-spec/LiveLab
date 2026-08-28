@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คู่มือการเรียนรู้ Basic Live Streaming 101 (EP 1 & EP 2)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Prompt) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Prompt', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .diagram-node {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .diagram-node:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.3);
+        }
+        .active-tab {
+            border-bottom: 3px solid #6366f1;
+            color: #4f46e5;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans min-h-screen flex flex-col">
+
+    <!-- Header Navigation -->
+    <header class="bg-slate-800/80 backdrop-blur border-b border-slate-700 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="bg-brand-600 text-white p-2.5 rounded-xl shadow-lg shadow-brand-500/30">
+                    <i class="fa-solid fa-video text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">Basic Live Streaming Masterclass</h1>
+                    <p class="text-xs text-slate-400">คู่มือเรียนรู้เจาะลึก EP 1 & EP 2: อุปกรณ์, OBS Setting & Bitrate Guide</p>
+                </div>
+            </div>
+            
+            <nav class="flex flex-wrap space-x-1 sm:space-x-2 bg-slate-900/60 p-1 rounded-xl border border-slate-700/60 text-xs sm:text-sm">
+                <button onclick="switchTab('overview')" id="tab-overview" class="px-3 py-1.5 rounded-lg active-tab transition">
+                    <i class="fa-solid fa-sitemap mr-1"></i> แผนผังระบบ
+                </button>
+                <button onclick="switchTab('mobile-vs-pc')" id="tab-mobile-vs-pc" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 transition">
+                    <i class="fa-solid fa-mobile-screen-button mr-1"></i> มือถือ vs กล้องใหญ่
+                </button>
+                <button onclick="switchTab('equipment')" id="tab-equipment" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 transition">
+                    <i class="fa-solid fa-boxes-packing mr-1"></i> อุปกรณ์ & เลนส์
+                </button>
+                <button onclick="switchTab('obs-setting')" id="tab-obs-setting" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 transition">
+                    <i class="fa-solid fa-sliders mr-1"></i> OBS & Bitrate
+                </button>
+                <button onclick="switchTab('quiz')" id="tab-quiz" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-slate-200 transition">
+                    <i class="fa-solid fa-circle-question mr-1"></i> แบบทดสอบ
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<a href="index.html" class="px-4 py-2 bg-slate-700 text-white rounded-lg">กลับหน้าแรก (EP 1)</a>
+        <!-- SECTION 1: OVERVIEW & INTERACTIVE DIAGRAM -->
+        <section id="sec-overview" class="space-y-8">
+            <div class="bg-gradient-to-r from-brand-900/40 to-slate-800/60 p-6 rounded-2xl border border-brand-500/20">
+                <h2 class="text-2xl font-bold text-white mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-diagram-project text-brand-500"></i> แผนผังจำลองการต่ออุปกรณ์ (Live Setup Workflow)
+                </h2>
+                <p class="text-slate-300 text-sm">
+                    คลิกที่แต่ละโมดูลในแผนผังเพื่อเรียนรู้การตั้งค่า การส่งสัญญาณ และเทคนิคสำคัญที่สอนในวิดีโอ
+                </p>
+            </div>
+
+            <!-- Visual Live Workflow Diagram -->
+            <div class="bg-slate-800/80 p-6 rounded-2xl border border-slate-700">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 relative">
+
+                    <!-- Step 1: Input Source -->
+                    <div class="space-y-4">
+                        <div class="text-center py-1 bg-slate-700/50 rounded text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                            1. แหล่งสัญญาณภาพและเสียง
+                        </div>
+                        
+                        <!-- Camera Card -->
+                        <div onclick="showDetail('camera')" class="diagram-node bg-slate-900 p-4 rounded-xl border border-indigo-500/30 cursor-pointer relative overflow-hidden group">
+                            <div class="absolute top-0 right-0 w-16 h-16 bg-indigo-500/10 rounded-bl-full transition-all group-hover:bg-indigo-500/20"></div>
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-10 h-10 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold">
+                                    <i class="fa-solid fa-camera"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-sm text-white">กล้อง Mirrorless</h3>
+                                    <p class="text-xs text-slate-400">Sony ZV-E10 II / A7M5</p>
+                                </div>
+                            </div>
+                            <span class="inline-block px-2 py-0.5 text-[10px] bg-indigo-500/20 text-indigo-300 rounded border border-indigo-500/30">
+                                Clean HDMI & Lock ค่า
+                            </span>
+                        </div>
+
+                        <!-- Mic Card -->
+                        <div onclick="showDetail('mic')" class="diagram-node bg-slate-900 p-4 rounded-xl border border-emerald-500/30 cursor-pointer relative overflow-hidden group">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-10 h-10 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
+                                    <i class="fa-solid fa-microphone text-lg"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-sm text-white">ไมโครโฟน + Filter</h3>
+                                    <p class="text-xs text-slate-400">USB / Dynamic + Noise Suppression</p>
+                                </div>
+                            </div>
+                            <span class="inline-block px-2 py-0.5 text-[10px] bg-emerald-500/20 text-emerald-300 rounded border border-emerald-500/30">
+                                ตัดเสียงแอร์หึ่งๆ
+                            </span>
+                        </div>
+
+                        <!-- Lighting Card -->
+                        <div onclick="showDetail('lighting')" class="diagram-node bg-slate-900 p-4 rounded-xl border border-amber-500/30 cursor-pointer relative overflow-hidden group">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-10 h-10 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold">
+                                    <i class="fa-solid fa-lightbulb text-lg"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-sm text-white">ระบบไฟจัดฉาก</h3>
+                                    <p class="text-xs text-slate-400">Softbox / Lantern</p>
+                                </div>
+                            </div>
+                            <span class="inline-block px-2 py-0.5 text-[10px] bg-amber-500/20 text-amber-300 rounded border border-amber-500/30">
+                                แหล่งแสงใหญ่ = แสงนุ่ม
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Converter -->
+                    <div class="space-y-4 flex flex-col justify-center">
+                        <div class="text-center py-1 bg-slate-700/50 rounded text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                            2. ตัวแปลงสัญญาณ
+                        </div>
+                        
+                        <div onclick="showDetail('capture')" class="diagram-node bg-slate-900 p-4 rounded-xl border border-cyan-500/30 cursor-pointer relative overflow-hidden group">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-10 h-10 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold">
+                                    <i class="fa-solid fa-compact-disc"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-sm text-white">Video Capture Card</h3>
+                                    <p class="text-xs text-slate-400">AVerMedia GC553 Pro</p>
+                                </div>
+                            </div>
+                            <p class="text-xs text-slate-400 mt-2">
+                                แปลง HDMI จากกล้องเป็น USB เข้าคอมพิวเตอร์
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Processing PC -->
+                    <div class="space-y-4 flex flex-col justify-center">
+                        <div class="text-center py-1 bg-slate-700/50 rounded text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                            3. คอมพิวเตอร์ประมวลผล
+                        </div>
+                        
+                        <div onclick="showDetail('pc')" class="diagram-node bg-slate-900 p-4 rounded-xl border border-purple-500/30 cursor-pointer relative overflow-hidden group">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-10 h-10 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold">
+                                    <i class="fa-solid fa-microchip"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-sm text-white">Streaming PC</h3>
+                                    <p class="text-xs text-slate-400">Ryzen 5 + RX 7600 XT</p>
+                                </div>
+                            </div>
+                            <div class="space-y-1 mt-2 text-xs text-slate-400">
+                                <div class="flex justify-between"><span>การ์ดจอแยก:</span> <span class="text-slate-200">Hardware Encoder</span></div>
+                                <div class="flex justify-between"><span>พอร์ต USB:</span> <span class="text-slate-200">เน้นพอร์ตเยอะ</span></div>
+                                <div class="flex justify-between"><span>การเชื่อมต่อ:</span> <span class="text-emerald-400">แยกสาย LAN เฉพาะ</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Software / Output -->
+                    <div class="space-y-4 flex flex-col justify-center">
+                        <div class="text-center py-1 bg-slate-700/50 rounded text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                            4. ซอฟต์แวร์ยิงไลฟ์
+                        </div>
+                        
+                        <div onclick="showDetail('software_obs')" class="diagram-node bg-slate-900 p-3 rounded-xl border border-slate-700 cursor-pointer hover:border-indigo-500">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-circle-play text-indigo-400"></i>
+                                <span class="font-semibold text-sm text-white">OBS Studio</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400">ตั้ง Bitrate คงที่ (CBR) + ไม่ลด Resolution</p>
+                        </div>
+
+                        <div onclick="showDetail('software_streamyard')" class="diagram-node bg-slate-900 p-3 rounded-xl border border-slate-700 cursor-pointer hover:border-indigo-500">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-users text-sky-400"></i>
+                                <span class="font-semibold text-sm text-white">StreamYard</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400">คุยหลายคน + Virtual Cam</p>
+                        </div>
+
+                        <div onclick="showDetail('software_zoom')" class="diagram-node bg-slate-900 p-3 rounded-xl border border-slate-700 cursor-pointer hover:border-indigo-500">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-video text-blue-400"></i>
+                                <span class="font-semibold text-sm text-white">Zoom Meeting</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400">เน้นประชุม/สัมมนา เปิดโหมด HD</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Dynamic Detail Box -->
+            <div id="detail-box" class="bg-slate-800 p-6 rounded-2xl border border-brand-500/40 shadow-xl transition-all">
+                <div id="detail-content" class="space-y-3">
+                    <div class="flex items-center gap-3 text-brand-400 font-bold text-lg">
+                        <i class="fa-solid fa-hand-pointer animate-bounce"></i>
+                        <span>คลิกที่องค์ประกอบต่างๆ ในแผนผังด้านบน เพื่ออ่านคำอธิบายแบบเจาะลึก</span>
+                    </div>
+                    <p class="text-sm text-slate-400">
+                        เรียนรู้เทคนิคการเลือกใช้อุปกรณ์และการตั้งค่าซอฟต์แวร์จริงจากประสบการณ์ผู้เชี่ยวชาญในวิดีโอ EP1 & EP2
+                    </p>
+                </div>
+            </div>
+
+            <!-- Timeline Navigator EP 1 & EP 2 -->
+            <div class="bg-slate-800/50 p-6 rounded-2xl border border-slate-700 space-y-6">
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-clock text-indigo-400"></i> สรุปช่วงเวลาสำคัญ EP 1: พื้นฐานอุปกรณ์และการเชื่อมต่อ
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+                        <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800">
+                            <span class="text-indigo-400 font-mono font-bold">0:00 - 1:02</span>
+                            <p class="font-medium text-slate-200 mt-1">กล้อง & ไฟเบื้องต้น</p>
+                            <p class="text-xs text-slate-400">ZV-E10 II, USB-C Power, ไฟแสงนุ่ม</p>
+                        </div>
+                        <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800">
+                            <span class="text-indigo-400 font-mono font-bold">1:03 - 3:21</span>
+                            <p class="font-medium text-slate-200 mt-1">สเปก PC สำหรับไลฟ์</p>
+                            <p class="text-xs text-slate-400">Ryzen 5 7500F, RX 7600 XT, พอร์ต USB เยอะ</p>
+                        </div>
+                        <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800">
+                            <span class="text-indigo-400 font-mono font-bold">3:22 - 6:12</span>
+                            <p class="font-medium text-slate-200 mt-1">Capture Card & Clean HDMI</p>
+                            <p class="text-xs text-slate-400">ปิด Info Display, ต่อไมค์ USB Condenser</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-star text-amber-400"></i> สรุปช่วงเวลาสำคัญ EP 2: เจาะลึกตั้งค่า OBS & Bitrate
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+                        <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800">
+                            <span class="text-amber-400 font-mono font-bold">0:18 - 4:15</span>
+                            <p class="font-medium text-slate-200 mt-1">ข้อจำกัดของมือถือ</p>
+                            <p class="text-xs text-slate-400">เน็ตดร็อปความชัดเหลือ 360p, แสงวูบ, ไม่โฟกัส</p>
+                        </div>
+                        <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800">
+                            <span class="text-amber-400 font-mono font-bold">4:16 - 12:28</span>
+                            <p class="font-medium text-slate-200 mt-1">ล็อคค่ากล้อง & OBS Bitrate</p>
+                            <p class="text-xs text-slate-400">ตั้ง Full HD 60fps, Bitrate 8500 Kbps, ล็อคแสง/สี</p>
+                        </div>
+                        <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-800">
+                            <span class="text-amber-400 font-mono font-bold">16:35 - 30:44</span>
+                            <p class="font-medium text-slate-200 mt-1">Noise Filter & Upgrade ภาพ</p>
+                            <p class="text-xs text-slate-400">ตัดเสียงแอร์ด้วย Filter, เปลี่ยนเลนส์ F1.4, Full Frame</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: MOBILE VS PC / CAMERA COMPARISON -->
+        <section id="sec-mobile-vs-pc" class="space-y-6 hidden">
+            <div class="bg-gradient-to-r from-indigo-900/40 to-slate-800/60 p-6 rounded-2xl border border-indigo-500/20">
+                <h2 class="text-2xl font-bold text-white mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-mobile-screen-button text-indigo-400"></i> เปรียบเทียบการไลฟ์: สมาร์ทโฟน vs คอมพิวเตอร์ + กล้องใหญ่
+                </h2>
+                <p class="text-slate-300 text-sm">
+                    ทำไมการสตรีมด้วยคอมพิวเตอร์และกล้องใหญ่จึงให้คุณภาพที่ดีกว่า และไม่มีปัญหาความละเอียดตก
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- Mobile Streaming -->
+                <div class="bg-slate-800 p-6 rounded-2xl border border-rose-500/30 space-y-4">
+                    <div class="flex items-center gap-3 border-b border-slate-700 pb-3">
+                        <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold text-lg">
+                            <i class="fa-solid fa-mobile-button"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-white">ไลฟ์ด้วยสมาร์ทโฟน (Mobile App)</h3>
+                            <p class="text-xs text-rose-400 font-semibold">เน้นสะดวก แต่อุดมด้วยข้อจำกัด</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 text-sm text-slate-300">
+                        <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-700/60">
+                            <span class="font-bold text-rose-400 block mb-1">🔴 ความละเอียดปรับลดอัตโนมัติ (Auto-Downgrade)</span>
+                            <p class="text-xs text-slate-400">แอปมือถือเน้นไม่ให้การเชื่อมต่อหลุดเป็นหลัก หากอินเทอร์เน็ตแกว่งเล็กน้อย ระบบจะลดความละเอียดลงเหลือ 360p และ<strong>จะไม่ปรับกลับขึ้นมาเป็น HD อีกเลย</strong>แม้เน็ตจะกลับมาดีแล้ว</p>
+                        </div>
+
+                        <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-700/60">
+                            <span class="font-bold text-rose-400 block mb-1">🔴 ปัญหาออโต้ล็อคแสงและโฟกัส</span>
+                            <p class="text-xs text-slate-400">กล้องมือถือมักเป็นระบบ Auto ทั้งหมด แสงเปลี่ยนวูบวาบตามการเคลื่อนไหว กล้องหน้ามักไม่มี Auto Focus เวลายื่นสินค้าหรือของใกล้กล้องจะไม่โฟกัส</p>
+                        </div>
+
+                        <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-700/60">
+                            <span class="font-bold text-rose-400 block mb-1">🔴 บังคับแนวตั้ง & เสียงก้อง</span>
+                            <p class="text-xs text-slate-400">แอปไลฟ์ส่วนใหญ่ (เช่น Facebook) ไม่รองรับแนวนอนบนมือถือ ไมค์มือถือเก็บเสียงรอบข้างและเสียงก้องในห้องเข้ามามาก</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PC + Camera Streaming -->
+                <div class="bg-slate-800 p-6 rounded-2xl border border-emerald-500/30 space-y-4">
+                    <div class="flex items-center gap-3 border-b border-slate-700 pb-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-lg">
+                            <i class="fa-solid fa-desktop"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-white">ไลฟ์ด้วย PC + กล้อง Mirrorless + OBS</h3>
+                            <p class="text-xs text-emerald-400 font-semibold">คุณภาพระดับมืออาชีพ คมชัดเสถียรคงที่</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 text-sm text-slate-300">
+                        <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-700/60">
+                            <span class="font-bold text-emerald-400 block mb-1">🟢 ล็อค Bitrate & Resolution คงที่</span>
+                            <p class="text-xs text-slate-400">OBS จะส่งข้อมูลแบบ Constant Bitrate (CBR) การันตีความละเอียด 1080p Full HD ตลอดการสตรีม แม้เน็ตช้าภาพอาจมีกระตุกบ้างตามความเร็วเน็ต แต่<strong>ความละเอียดจะไม่ดร็อปเป็นภาพแตก</strong></p>
+                        </div>
+
+                        <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-700/60">
+                            <span class="font-bold text-emerald-400 block mb-1">🟢 ล็อคค่ากล้องได้แม่นยำ (Manual Lock)</span>
+                            <p class="text-xs text-slate-400">ล็อค Speed Shutter, F-Stop, ISO และ White Balance (K) ได้คงที่ สีเสื้อไม่เพี้ยน แสงไม่วูบวาบ และมีระบบ Auto Focus แม่นยำยื่นวัตถุแล้วโฟกัสทันที</p>
+                        </div>
+
+                        <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-700/60">
+                            <span class="font-bold text-emerald-400 block mb-1">🟢 เสียงคมชัด + ตัดเสียงรบกวนได้</span>
+                            <p class="text-xs text-slate-400">ใช้ไมค์แยก คอนเดนเซอร์/ไดนามิก และใส่ Filter ตัดเสียงแอร์รบกวนได้ใน OBS</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 3: EQUIPMENT & LENS UPGRADE GUIDE -->
+        <section id="sec-equipment" class="space-y-6 hidden">
+            <div class="bg-gradient-to-r from-emerald-900/40 to-slate-800/60 p-6 rounded-2xl border border-emerald-500/20">
+                <h2 class="text-2xl font-bold text-white mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-boxes-packing text-emerald-400"></i> คู่มืออุปกรณ์และการอัปเกรดระดับภาพ (Hardware & Lens Upgrade)
+                </h2>
+                <p class="text-slate-300 text-sm">
+                    เจาะลึกขั้นตอนการอัปเกรดกล้องและเลนส์ จากระดับเริ่มต้นสู่ระดับมืออาชีพตามงบประมาณ
+                </p>
+            </div>
+
+            <!-- Lens Upgrade Path -->
+            <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-4">
+                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-layer-group text-amber-400"></i> ลำดับขั้นการอัปเกรดมิติภาพ (Visual Upgrade Ladder)
+                </h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    
+                    <!-- Level 1 -->
+                    <div class="bg-slate-900/80 p-5 rounded-xl border border-slate-700 space-y-2">
+                        <span class="px-2 py-0.5 text-[10px] bg-slate-700 text-slate-300 rounded uppercase font-bold">Step 1: เริ่มต้น</span>
+                        <h4 class="font-bold text-indigo-400 text-base">กล้อง APSC + เลนส์ Kit</h4>
+                        <p class="text-xs text-slate-400">ตัวอย่าง: Sony ZV-E10 II + เลนส์ Kit ติดกล้อง (F3.5-F5.6)</p>
+                        <ul class="text-xs text-slate-300 space-y-1 list-disc list-inside pt-2">
+                            <li>ภาพคมชัดกว่าสมาร์ทโฟนหลายเท่า</li>
+                            <li>ละลายหลังได้เล็กน้อยตามระยะซูม</li>
+                            <li>งบประมาณประหยัด คุ้มค่าเริ่มต้น</li>
+                        </ul>
+                    </div>
+
+                    <!-- Level 2 -->
+                    <div class="bg-slate-900/80 p-5 rounded-xl border border-amber-500/30 space-y-2">
+                        <span class="px-2 py-0.5 text-[10px] bg-amber-500/20 text-amber-300 rounded uppercase font-bold">Step 2: อัปเกรดเลนส์ (แนะนำ)</span>
+                        <h4 class="font-bold text-amber-400 text-base">เปลี่ยนเป็นเลนส์เดี่ยว F รูกว้าง</h4>
+                        <p class="text-xs text-slate-400">ตัวอย่าง: เปลี่ยนใส่เลนส์ 35mm F1.4 GM / Lens Fix</p>
+                        <ul class="text-xs text-slate-300 space-y-1 list-disc list-inside pt-2">
+                            <li>ฉากหลังละลายสวยงาม มิติภาพเด่นชัด</li>
+                            <li>ภาพใส เคลียร์ สว่างขึ้นแม้แสงน้อย</li>
+                            <li>ซื้อเลนส์ดีๆ ครั้งเดียวใช้ได้ยาวนาน</li>
+                        </ul>
+                    </div>
+
+                    <!-- Level 3 -->
+                    <div class="bg-slate-900/80 p-5 rounded-xl border border-purple-500/30 space-y-2">
+                        <span class="px-2 py-0.5 text-[10px] bg-purple-500/20 text-purple-300 rounded uppercase font-bold">Step 3: โปรสูงสุด</span>
+                        <h4 class="font-bold text-purple-400 text-base">อัปเกรดเป็นเซ็นเซอร์ Full Frame</h4>
+                        <p class="text-xs text-slate-400">ตัวอย่าง: Sony Alpha 7 Mark V + 35mm F1.4 GM</p>
+                        <ul class="text-xs text-slate-300 space-y-1 list-disc list-inside pt-2">
+                            <li>เซ็นเซอร์ใหญ่ มิติ Depth of Field ใสนุ่มนวล</li>
+                            <li>หัวต่อ HDMI ขนาดใหญ่ (Type-A) เสียบแน่น</li>
+                            <li>การเก็บรายละเอียดแสงและสีสมบูรณ์แบบ</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Hardware Spec Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- PC & GPU Setup -->
+                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-3">
+                    <h3 class="font-bold text-lg text-white flex items-center gap-2">
+                        <i class="fa-solid fa-microchip text-purple-400"></i> สเปกคอมพิวเตอร์สำหรับการสตรีมแบบยาวๆ
+                    </h3>
+                    <ul class="space-y-2 text-sm text-slate-300">
+                        <li>**CPU:** AMD Ryzen 5 7500F (6 Cores / 12 Threads) ราคากลางๆ ประมวลผลลื่นไหล</li>
+                        <li>**GPU:** ASRock Challenger RX 7600 XT (ใช้ Hardware Encoder เช่น AMD H.264/AV1 ช่วยแบกภาระไลฟ์ + Record พร้อมกัน)</li>
+                        <li>**เมนบอร์ด:** ASRock B850 Pro A WiFi (เน้นเลือกพอร์ต USB เยอะ 10+ พอร์ต)</li>
+                        <li>**แยกสาย LAN:** ห้ามใช้ WiFi ร่วมกับแอดมินหลายคน แยกสาย LAN สำหรับคอมสตรีมมิ่งเฉพาะ 1 เส้น</li>
+                    </ul>
+                </div>
+
+                <!-- Mic & Noise Suppression -->
+                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-3">
+                    <h3 class="font-bold text-lg text-white flex items-center gap-2">
+                        <i class="fa-solid fa-microphone text-emerald-400"></i> ระบบเสียงและการตัดเสียงรบกวน (Audio Noise Filter)
+                    </h3>
+                    <p class="text-xs text-slate-300">
+                        เสียงแอร์หึ่มๆ หรือพัดลม สามารถตัดออกได้ในโปรแกรม OBS โดยทำตามขั้นตอนดังนี้:
+                    </p>
+                    <ol class="list-decimal list-inside space-y-1.5 text-xs text-slate-300 bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                        <li>ไปที่หน้าต่าง **Sources** หรือ **Audio Mixer**</li>
+                        <li>คลิกขวาที่ช่องไมโครโฟน (`Audio Input Capture`) > เลือก **Filters**</li>
+                        <li>กดปุ่ม `+` > เลือก **Noise Suppression**</li>
+                        <li>ปรับค่าในส่วน **Suppression Level** ลดลงไปประมาณ **-15 dB** (ช่วยตัดเสียงแอร์โดยเสียงพูดไม่เพี้ยน)</li>
+                    </ol>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 4: OBS SETTINGS, BITRATE & INTERACTIVE CALCULATOR -->
+        <section id="sec-obs-setting" class="space-y-8 hidden">
+            <div class="bg-gradient-to-r from-sky-900/40 to-slate-800/60 p-6 rounded-2xl border border-sky-500/20">
+                <h2 class="text-2xl font-bold text-white mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-sliders text-sky-400"></i> การตั้งค่า OBS Studio, Bitrate & เครื่องมือคำนวณความเร็วเน็ต
+                </h2>
+                <p class="text-slate-300 text-sm">
+                    รวมข้อกำหนด Bitrate ของทุกแพลตฟอร์ม สูตรคำนวณความเร็ว Upload และคู่มืออ่านเรือนไมล์สถานะสตรีม
+                </p>
+            </div>
+
+            <!-- INTERACTIVE BITRATE & BANDWIDTH CALCULATOR -->
+            <div class="bg-slate-800 p-6 rounded-2xl border border-brand-500/40 shadow-xl space-y-4">
+                <div class="flex items-center gap-3 border-b border-slate-700 pb-3">
+                    <div class="w-10 h-10 rounded-xl bg-brand-600/20 text-brand-400 flex items-center justify-center font-bold text-lg">
+                        <i class="fa-solid fa-calculator"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg text-white">เครื่องมือคำนวณ Bitrate ปลอดภัยจากค่า Upload เน็ต (Interactive Bitrate Calculator)</h3>
+                        <p class="text-xs text-slate-400">อ้างอิงสูตรเหล็ก: (Upload Speed Kbps) × 70% สำรองเน็ต 30% สำหรับความเสถียร</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                    <div class="space-y-3">
+                        <label class="block text-xs font-semibold text-slate-300">
+                            ใส่อัตราความเร็ว Upload จริงจาก Speedtest (Mbps):
+                        </label>
+                        <div class="flex gap-2">
+                            <input type="number" id="upload-speed-input" value="20" min="1" max="1000" class="bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-white font-mono text-sm focus:outline-none focus:border-brand-500 w-full">
+                            <button onclick="calculateBitrate()" class="px-5 py-2 bg-brand-600 hover:bg-brand-500 text-white text-xs font-bold rounded-xl transition whitespace-nowrap">
+                                คำนวณ
+                            </button>
+                        </div>
+                        <p class="text-[11px] text-slate-400">* ตัวอย่าง: ทดสอบ Speedtest ได้ Upload 20 Mbps ให้ใส่เลข 20</p>
+                    </div>
+
+                    <div id="calc-result-box" class="bg-slate-900 p-4 rounded-xl border border-brand-500/30 space-y-2">
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="text-slate-400">ความเร็ว Upload ทั้งหมด:</span>
+                            <span id="res-total-kbps" class="font-mono text-slate-200 font-bold">20,000 Kbps</span>
+                        </div>
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="text-slate-400">Bitrate สูงสุดที่ปลอดภัย (70%):</span>
+                            <span id="res-safe-bitrate" class="font-mono text-brand-400 font-bold text-base">14,000 Kbps</span>
+                        </div>
+                        <div class="pt-2 border-t border-slate-800 text-xs">
+                            <span class="text-slate-300 font-semibold block mb-1">คำแนะนำการตั้งค่าใน OBS:</span>
+                            <p id="res-recommendation" class="text-emerald-400 font-medium">
+                                ✓ เน็ตแรงมาก! สามารถสตรีม 1080p 60FPS ที่ Bitrate 6,000 - 9,000 Kbps ได้สบายๆ มี Bandwidth เหลือสำหรับการเล่นเกม
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PLATFORM BITRATE REQUIREMENTS TABLE -->
+            <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-4">
+                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-table-list text-sky-400"></i> ตารางข้อกำหนด Bitrate แต่ละแพลตฟอร์ม (Platform Bitrate Table)
+                </h3>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs text-slate-300">
+                        <thead class="bg-slate-900/80 text-slate-200 uppercase font-semibold border-b border-slate-700">
+                            <tr>
+                                <th class="p-3">แพลตฟอร์ม</th>
+                                <th class="p-3">ความละเอียด</th>
+                                <th class="p-3">FPS</th>
+                                <th class="p-3">Bitrate แนะนำ (Kbps)</th>
+                                <th class="p-3">Encoder ที่รองรับ</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-700/60 bg-slate-900/40">
+                            <tr>
+                                <td class="p-3 font-bold text-red-400"><i class="fa-brands fa-youtube mr-1"></i> YouTube Live</td>
+                                <td class="p-3">1080p Full HD</td>
+                                <td class="p-3">60 FPS</td>
+                                <td class="p-3 font-mono text-brand-300">4,500 – 9,000 Kbps</td>
+                                <td class="p-3">H.264 / H.265 / AV1</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-blue-400"><i class="fa-brands fa-facebook mr-1"></i> Facebook Live</td>
+                                <td class="p-3">1080p Full HD</td>
+                                <td class="p-3">30/60 FPS</td>
+                                <td class="p-3 font-mono text-brand-300">4,000 – 6,000 Kbps (Level Up)</td>
+                                <td class="p-3 text-amber-400">H.264 เท่านั้น</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-purple-400"><i class="fa-brands fa-twitch mr-1"></i> Twitch</td>
+                                <td class="p-3">1080p Full HD</td>
+                                <td class="p-3">60 FPS</td>
+                                <td class="p-3 font-mono text-brand-300">6,000 Kbps (Max ~8,000)</td>
+                                <td class="p-3">H.264</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-sky-400"><i class="fa-brands fa-tiktok mr-1"></i> TikTok Live</td>
+                                <td class="p-3">1080p แนวตั้ง/นอน</td>
+                                <td class="p-3">30/60 FPS</td>
+                                <td class="p-3 font-mono text-brand-300">4,000 – 6,000 Kbps</td>
+                                <td class="p-3">H.264</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-emerald-400"><i class="fa-solid fa-bolt mr-1"></i> Kick</td>
+                                <td class="p-3">1080p Full HD</td>
+                                <td class="p-3">60 FPS</td>
+                                <td class="p-3 font-mono text-brand-300">6,000 – 8,000 Kbps</td>
+                                <td class="p-3">H.264 / HEVC</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-[11px] text-slate-400">* หมายเหตุ Audio Bitrate มาตรฐานสำหรับสตรีมทั่วไปใช้ **160 Kbps** (หากเน้นเสียงดนตรี/คอนเสิร์ตปรับเป็น **320 Kbps**)</p>
+            </div>
+
+            <!-- OBS STATUS BAR MONITORING GUIDE -->
+            <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-4">
+                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-gauge-high text-emerald-400"></i> คู่มืออ่านเรือนไมล์สถานะสตรีม OBS (Status Bar Monitoring)
+                </h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+                    
+                    <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700 space-y-2">
+                        <div class="flex items-center gap-2 font-bold text-slate-100">
+                            <span class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span>1. ไฟสีสถานะเน็ต</span>
+                        </div>
+                        <ul class="space-y-1 text-slate-300">
+                            <li><strong class="text-emerald-400">สีเขียว:</strong> เน็ตเสถียร ลื่นไหล</li>
+                            <li><strong class="text-amber-400">สีเหลือง:</strong> เน็ตแกว่ง มีเฟรมตก</li>
+                            <li><strong class="text-rose-400">สีแดง:</strong> เน็ตมีปัญหา สตรีมจะค้าง/หลุด</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700 space-y-2">
+                        <div class="flex items-center gap-2 font-bold text-slate-100">
+                            <i class="fa-solid fa-filter-circle-xmark text-rose-400"></i>
+                            <span>2. Dropped Frames</span>
+                        </div>
+                        <p class="text-slate-300">
+                            จำนวนเฟรมที่ถูกทิ้งเพราะ<strong>เน็ตส่งไม่ทัน</strong> ค่าที่สมบูรณ์ควรเป็น <strong>0 (0.0%)</strong> หากพุ่งสูงให้ลด Bitrate
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700 space-y-2">
+                        <div class="flex items-center gap-2 font-bold text-slate-100">
+                            <i class="fa-solid fa-microchip text-purple-400"></i>
+                            <span>3. CPU / GPU Usage</span>
+                        </div>
+                        <p class="text-slate-300">
+                            ภาระประมวลผลเครื่อง ควรวิ่งต่ำๆ (2%-10%) หากพุ่งแตะ 80-100% สตรีมจะกระตุกเพราะเครื่องประมวลผลไม่ทัน (Encoding Lag)
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-700 space-y-2">
+                        <div class="flex items-center gap-2 font-bold text-slate-100">
+                            <i class="fa-solid fa-film text-sky-400"></i>
+                            <span>4. Frame Rate (FPS)</span>
+                        </div>
+                        <p class="text-slate-300">
+                            อัตราเฟรมจริงที่ส่งออก ต้องนิ่งตรงตามที่ตั้งไว้ (เช่น 60.00 fps) หากตกร่วง เกิดจากการ์ดจอ/ซีพียูประมวลผลฉากไม่ไหว
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: INTERACTIVE QUIZ -->
+        <section id="sec-quiz" class="space-y-6 hidden">
+            <div class="bg-gradient-to-r from-purple-900/40 to-slate-800/60 p-6 rounded-2xl border border-purple-500/20">
+                <h2 class="text-2xl font-bold text-white mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-question text-purple-400"></i> แบบทดสอบความเข้าใจ (Knowledge Self-Test)
+                </h2>
+                <p class="text-slate-300 text-sm">
+                    ทดสอบความรู้จากการเรียนรู้สรุปอุปกรณ์ ระบบไลฟ์สตรีม และการตั้งค่า OBS ใน EP 1 & EP 2
+                </p>
+            </div>
+
+            <div class="max-w-3xl mx-auto space-y-6">
+
+                <!-- Question 1 -->
+                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-4">
+                    <h3 class="font-bold text-slate-100 flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs">1</span>
+                        เมื่อสัญญาณอินเทอร์เน็ตแกว่งระหว่างไลฟ์ผ่านสมาร์ทโฟน ข้อใดคือสิ่งที่เกิดขึ้นกับความละเอียดวิดีโอ?
+                    </h3>
+                    <div class="space-y-2 text-sm">
+                        <label class="flex items-center gap-3 p-3 bg-slate-900/50 rounded-xl cursor-pointer hover:bg-slate-900 border border-slate-700/60">
+                            <input type="radio" name="q1" value="a" class="text-indigo-600">
+                            <span>ระบบจะลดความละเอียดลง เช่น เหลือ 360p และจะไม่ปรับกลับขึ้นเป็น HD แม้เน็ตจะดีขึ้น</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-900/50 rounded-xl cursor-pointer hover:bg-slate-900 border border-slate-700/60">
+                            <input type="radio" name="q1" value="b" class="text-indigo-600">
+                            <span>ความละเอียดจะคงที่เท่าเดิมตลอดเวลาแต่น้ำเสียงจะขาดหาย</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-900/50 rounded-xl cursor-pointer hover:bg-slate-900 border border-slate-700/60">
+                            <input type="radio" name="q1" value="c" class="text-indigo-600">
+                            <span>กล้องมือถือจะทำการเปิดไฟแฟลชอัตโนมัติเพื่อเพิ่มความคมชัด</span>
+                        </label>
+                    </div>
+                    <div id="q1-result" class="hidden p-3 rounded-xl text-xs font-semibold"></div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-4">
+                    <h3 class="font-bold text-slate-100 flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs">2</span>
+                        สูตรเหล็กคำนวณ Bitrate ปลอดภัยสำหรับตั้งค่าใน OBS จากความเร็ว Upload คืออะไร?
+                    </h3>
+                    <div class="space-y-2 text-sm">
+                        <label class="flex items-center gap-3 p-3 bg-slate-900/50 rounded-xl cursor-pointer hover:bg-slate-900 border border-slate-700/60">
+                            <input type="radio" name="q2" value="a" class="text-indigo-600">
+                            <span>ใช้อัตรา Upload ทั้งหมด 100% เต็มเพื่อความคมชัดสูงสุด</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-900/50 rounded-xl cursor-pointer hover:bg-slate-900 border border-slate-700/60">
+                            <input type="radio" name="q2" value="b" class="text-indigo-600">
+                            <span>(ความเร็ว Upload Kbps) × 0.70 เพื่อสำรองเน็ตไว้ 30% สำหรับความเสถียร</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-900/50 rounded-xl cursor-pointer hover:bg-slate-900 border border-slate-700/60">
+                            <input type="radio" name="q2" value="c" class="text-indigo-600">
+                            <span>ตั้งค่าไว้ที่ 2,000 Kbps เสมอไม่ว่าจะเน็ตแรงเท่าใด</span>
+                        </label>
+                    </div>
+                    <div id="q2-result" class="hidden p-3 rounded-xl text-xs font-semibold"></div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-4">
+                    <h3 class="font-bold text-slate-100 flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs">3</span>
+                        หากต้องการตัดเสียงแอร์หึ่มๆ หรือเสียงพัดลมใน OBS ต้องใช้ตัวกรอง (Filter) ใดใน Audio Mixer?
+                    </h3>
+                    <div class="space-y-2 text-sm">
+                        <label class="flex items-center gap-3 p-3 bg-slate-900/50 rounded-xl cursor-pointer hover:bg-slate-900 border border-slate-700/60">
+                            <input type="radio" name="q3" value="a" class="text-indigo-600">
+                            <span>Video Capture Filter</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-900/50 rounded-xl cursor-pointer hover:bg-slate-900 border border-slate-700/60">
+                            <input type="radio" name="q3" value="b" class="text-indigo-600">
+                            <span>Noise Suppression (ปรับลดประมาณ -15 dB)</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-900/50 rounded-xl cursor-pointer hover:bg-slate-900 border border-slate-700/60">
+                            <input type="radio" name="q3" value="c" class="text-indigo-600">
+                            <span>Virtual Camera Audio Sync</span>
+                        </label>
+                    </div>
+                    <div id="q3-result" class="hidden p-3 rounded-xl text-xs font-semibold"></div>
+                </div>
+
+                <button onclick="checkQuiz()" class="w-full py-3 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl shadow-lg shadow-brand-600/30 transition">
+                    ตรวจคำตอบ
+                </button>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-6 text-center text-xs text-slate-500">
+        <p>Basic Live Streaming EP 1 & EP 2 Masterclass Learning Tool</p>
+        <p class="mt-1">สรุปเนื้อหาและสร้างเครื่องมือโต้ตอบเพื่อพัฒนาการสตรีมมิ่งระดับมืออาชีพ</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Tab Navigation Logic
+        function switchTab(tabId) {
+            const tabs = ['overview', 'mobile-vs-pc', 'equipment', 'obs-setting', 'quiz'];
+            tabs.forEach(tab => {
+                const sec = document.getElementById(`sec-${tab}`);
+                const btn = document.getElementById(`tab-${tab}`);
+                if (tab === tabId) {
+                    sec.classList.remove('hidden');
+                    btn.classList.add('active-tab');
+                    btn.classList.remove('text-slate-400');
+                } else {
+                    sec.classList.add('hidden');
+                    btn.classList.remove('active-tab');
+                    btn.classList.add('text-slate-400');
+                }
+            });
+        }
+
+        // Bitrate Calculator Logic
+        function calculateBitrate() {
+            const uploadInput = document.getElementById('upload-speed-input').value;
+            const uploadMbps = parseFloat(uploadInput) || 0;
+            
+            const totalKbps = uploadMbps * 1000;
+            const safeBitrate = Math.round(totalKbps * 0.70);
+
+            document.getElementById('res-total-kbps').innerText = `${totalKbps.toLocaleString()} Kbps`;
+            document.getElementById('res-safe-bitrate').innerText = `${safeBitrate.toLocaleString()} Kbps`;
+
+            const recElem = document.getElementById('res-recommendation');
+
+            if (uploadMbps >= 15) {
+                recElem.className = "text-emerald-400 font-medium";
+                recElem.innerText = `✓ เน็ตแรงมาก! สามารถตั้ง Bitrate ใน OBS ได้ที่ 6,000 - 9,000 Kbps สำหรับสตรีม 1080p 60FPS ได้สบายๆ และเหลือ Bandwidth เล่นเกมได้ลื่นไหล`;
+            } else if (uploadMbps >= 8) {
+                recElem.className = "text-sky-400 font-medium";
+                recElem.innerText = `✓ เน็ตปานกลาง แนะนำให้ตั้ง Bitrate ใน OBS ที่ 4,500 - 6,000 Kbps สำหรับสตรีม 1080p 30FPS หรือ 720p 60FPS`;
+            } else if (uploadMbps >= 4) {
+                recElem.className = "text-amber-400 font-medium";
+                recElem.innerText = `⚠️ เน็ตจำกัด แนะนำให้ตั้ง Bitrate ที่ 2,500 - 3,500 Kbps และปรับความละเอียดภาพลงเหลือ 720p 30/60FPS เพื่อป้องกันไลฟ์สะดุด`;
+            } else {
+                recElem.className = "text-rose-400 font-medium";
+                recElem.innerText = `❌ เน็ตช้าเกินไปสำหรับ HD สตรีม ควรใช้ Bitrate ไม่เกิน 1,500 - 2,000 Kbps และปรับเป็น 480p/720p 30FPS`;
+            }
+        }
+
+        // Detail Data for Diagram Nodes
+        const detailsData = {
+            camera: {
+                title: 'กล้องถ่ายภาพ (Sony ZV-E10 II / A7M5)',
+                icon: 'fa-camera text-indigo-400',
+                desc: 'อุปกรณ์ดึงภาพระดับโปร สามารถล็อคค่า Speed Shutter, F-Stop, ISO และ White Balance (K) ได้คงที่ แสงไม่วูบวาบ สีไม่เพี้ยน มีระบบ Auto Focus แม่นยำยื่นของแล้วโฟกัสทันที',
+                tip: 'ตั้งค่า Clean HDMI โดยปิด Info Display ในกล้อง: External Output -> HDMI Info Display -> OFF'
+            },
+            mic: {
+                title: 'ระบบไมโครโฟน & Noise Filter',
+                icon: 'fa-microphone text-emerald-400',
+                desc: 'ใช้ไมค์ Condenser USB หรือ Dynamic XLR แยกต่างหาก และใส่ Filter "Noise Suppression" ใน OBS เพื่อตัดเสียงแอร์ พัดลม หรือเสียงหึ่มรอบข้าง',
+                tip: 'ปรับตั้งค่า Noise Suppression ใน OBS ไว้ที่ประมาณ -15 dB จะช่วยตัดเสียงแอร์ได้เนียนที่สุดโดยเสียงพูดไม่บี้'
+            },
+            lighting: {
+                title: 'ระบบไฟจัดฉาก (Lighting)',
+                icon: 'fa-lightbulb text-amber-400',
+                desc: 'ไฟแรง + แหล่งกำเนิดแสงขนาดใหญ่ (Softbox / Lantern) จะช่วยให้แสงตกกระทบบนใบหน้านุ่มนวล ไม่เกิดเงาแข็งบนใบหน้า',
+                tip: 'หากเริ่มต้นใช้ไฟธรรมดาก่อนได้ แต่ถ้าต้องการงานระดับโปร ให้เลือกไฟที่มีซอฟต์บ็อกซ์ขนาดใหญ่'
+            },
+            capture: {
+                title: 'Video Capture Card (AVerMedia GC553 Pro)',
+                icon: 'fa-compact-disc text-cyan-400',
+                desc: 'กล่องแปลงสัญญาณภาพจากสาย HDMI ของกล้อง ให้กลายเป็นสัญญาณ USB เข้าสู่คอมพิวเตอร์ ทำหน้าที่เหมือนเว็บแคมความละเอียดสูง รองรับเฟรมเรตและ Resolution สูงถึง 4K 60FPS',
+                tip: 'สาย HDMI ลากได้ยาวถึง 15 เมตร ช่วยให้วางกล้องถอยห่างจัดมุมสวยๆ ได้ยืดหยุ่นกว่าสาย USB'
+            },
+            pc: {
+                title: 'สเปกคอมพิวเตอร์ประมวลผล (Streaming PC)',
+                icon: 'fa-microchip text-purple-400',
+                desc: 'ใช้ CPU AMD Ryzen 5 7500F ร่วมกับการ์ดจอแยก ASRock Challenger RX 7600 XT ( Hardware Encoder H.264) ช่วยแบกภาระไลฟ์สดและ Record ลงคอมพร้อมกัน',
+                tip: 'ควรเลือกเมนบอร์ดที่มีพอร์ต USB เยอะๆ (10+ พอร์ต) และต่อสาย LAN แยกเฉพาะสำหรับการสตรีม 1 เส้น'
+            },
+            software_obs: {
+                title: 'โปรแกรม OBS Studio (Bitrate Lock)',
+                icon: 'fa-circle-play text-indigo-400',
+                desc: 'ส่งสัญญาณแบบ Constant Bitrate (CBR) กำหนดความละเอียด 1080p Full HD 60fps แน่นอน แม้เน็ตช้าภาพอาจสะดุดบ้างแต่ความละเอียดจะไม่ถูกลดเป็น 360p',
+                tip: 'ตั้งค่า Streaming Bitrate อยู่ระหว่าง 4,500 - 8,500 Kbps ตามข้อกำหนดของ Facebook/YouTube'
+            },
+            software_streamyard: {
+                title: 'โปรแกรม StreamYard',
+                icon: 'fa-users text-sky-400',
+                desc: 'แอปพลิเคชันบนเว็บสำหรับการจัดรายการสัมภาษณ์หลายคน รับภาพจาก OBS ผ่าน "OBS Virtual Camera" และยิงพร้อมกันสูงสุด 10 ช่องทาง',
+                tip: 'เลือกไมโครโฟนตรงเข้า StreamYard และปิด Audio Monitor ใน OBS เพื่อป้องกันเสียงซ้ำ (Echo)'
+            },
+            software_zoom: {
+                title: 'โปรแกรม Zoom Meeting',
+                icon: 'fa-video text-blue-400',
+                desc: 'เน้นงานประชุม สัมมนา รองรับผู้ฟังหลักร้อยถึงหลักพันคน รับภาพจาก OBS Virtual Camera',
+                tip: 'อย่าลืมเปิดโหมด "HD Video" ในเมนูตั้งค่า Zoom เพื่อดึงความคมชัดสูงสุดจากกล้อง'
+            }
+        };
+
+        function showDetail(key) {
+            const data = detailsData[key];
+            if (!data) return;
+
+            const detailBox = document.getElementById('detail-box');
+            const detailContent = document.getElementById('detail-content');
+
+            detailContent.innerHTML = `
+                <div class="flex items-center gap-3 text-lg font-bold text-white border-b border-slate-700 pb-3">
+                    <i class="fa-solid ${data.icon}"></i>
+                    <span>${data.title}</span>
+                </div>
+                <p class="text-sm text-slate-300 leading-relaxed">${data.desc}</p>
+                <div class="p-3 bg-slate-900/80 rounded-xl border border-brand-500/30 text-xs text-brand-300 flex items-start gap-2">
+                    <i class="fa-solid fa-lightbulb mt-0.5 text-amber-400"></i>
+                    <div>
+                        <strong class="text-amber-400">ข้อแนะนำสำคัญ:</strong> ${data.tip}
+                    </div>
+                </div>
+            `;
+
+            detailBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Quiz Verification Logic
+        function checkQuiz() {
+            // Question 1: a
+            const q1 = document.querySelector('input[name="q1"]:checked');
+            const q1Res = document.getElementById('q1-result');
+            q1Res.classList.remove('hidden');
+            if (q1 && q1.value === 'a') {
+                q1Res.className = "p-3 rounded-xl text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+                q1Res.innerHTML = "✓ ถูกต้อง! แอปมือถือเน้นไม่ให้สตรีมตัด เมื่อเน็ตแกว่งจะดร็อปความชัดเหลือ 360p และไม่ปรับกลับขึ้นมา";
+            } else {
+                q1Res.className = "p-3 rounded-xl text-xs font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30";
+                q1Res.innerHTML = "✕ ยังไม่ถูกต้อง คำตอบคือ: ระบบจะลดความละเอียดลงเหลือ 360p และจะไม่ปรับกลับขึ้นเป็น HD แม้เน็ตจะดีขึ้น";
+            }
+
+            // Question 2: b
+            const q2 = document.querySelector('input[name="q2"]:checked');
+            const q2Res = document.getElementById('q2-result');
+            q2Res.classList.remove('hidden');
+            if (q2 && q2.value === 'b') {
+                q2Res.className = "p-3 rounded-xl text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+                q2Res.innerHTML = "✓ ถูกต้อง! สูตรเหล็กคือ (Upload Speed Kbps) × 0.70 เพื่อสำรอง Bandwidth 30% ให้เน็ตเสถียร";
+            } else {
+                q2Res.className = "p-3 rounded-xl text-xs font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30";
+                q2Res.innerHTML = "✕ ยังไม่ถูกต้อง คำตอบคือ: (ความเร็ว Upload Kbps) × 0.70";
+            }
+
+            // Question 3: b
+            const q3 = document.querySelector('input[name="q3"]:checked');
+            const q3Res = document.getElementById('q3-result');
+            q3Res.classList.remove('hidden');
+            if (q3 && q3.value === 'b') {
+                q3Res.className = "p-3 rounded-xl text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+                q3Res.innerHTML = "✓ ถูกต้อง! ใช้ Filter Noise Suppression ปรับลดประมาณ -15 dB ช่วยตัดเสียงแอร์ได้เนียนที่สุด";
+            } else {
+                q3Res.className = "p-3 rounded-xl text-xs font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30";
+                q3Res.innerHTML = "✕ ยังไม่ถูกต้อง คำตอบคือ: Noise Suppression (ปรับลดประมาณ -15 dB)";
+            }
+        }
+    </script>
+</body>
+</html>
